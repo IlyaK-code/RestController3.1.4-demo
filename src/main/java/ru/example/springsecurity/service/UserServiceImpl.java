@@ -45,6 +45,18 @@ public class UserServiceImpl implements UserService {
         if (existingUser != null && (user.getAuthorities() == null || user.getAuthorities().isEmpty())) {
             user.setRoles((Set<Role>) existingUser.getAuthorities());
         }
+        if (existingUser != null && (user.getFirstName() == null || user.getFirstName().isEmpty())) {
+            user.setFirstName(existingUser.getFirstName());
+        }
+        if (existingUser != null && (user.getLastName() == null || user.getLastName().isEmpty())) {
+            user.setLastName(existingUser.getLastName());
+        }
+        if (existingUser != null && (user.getEmail() == null || user.getEmail().isEmpty())) {
+            user.setEmail(existingUser.getEmail());
+        }
+        if (existingUser != null && (user.getAge() == null)) {
+            user.setAge(existingUser.getAge());
+        }
         return userRepo.save(user);
     }
 

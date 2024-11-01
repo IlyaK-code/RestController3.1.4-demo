@@ -12,14 +12,15 @@ const usersTable = document.getElementById('users-table')
 const listAllUsers = (users) => {
     users.forEach(user => {
         role = '';
+        console.log(user.roles)
         if (user.roles) {
             user.roles.forEach((r) => role += r.name.substring(5) + " ")
         }
         output +=
             `<tr>
                 <td>${user.id}</td>
-                <td>${user.firstname}</td>
-                <td>${user.lastname}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
                 <td>${user.age}</td>
                 <td>${user.email}</td>
                 <td>${role}</td>
@@ -36,6 +37,7 @@ const listAllUsers = (users) => {
             </tr>`;
     });
     usersTable.innerHTML = output;
+    console.log(users)
 }
 
 fetch(userUrl)
@@ -52,8 +54,8 @@ const userTable = (user) => {
     userInfoOutput = `
         <tr>
             <td>${user.id}</td>
-            <td>${user.firstname}</td>
-            <td>${user.lastname}</td>
+            <td>${user.firstName}</td>
+            <td>${user.lastName}</td>
             <td>${user.age}</td>
             <td>${user.email}</td>
             <td>${role}</td>
@@ -65,7 +67,7 @@ const userTable = (user) => {
 usersTable.addEventListener('click', (e) => {
     e.preventDefault()
     if (e.target.id === 'editButton') {
-        fetch(`http://localhost:8080/api/users/${e.target.dataset.uid}`)
+        fetch(`http://localhost:8080/api/admin/${e.target.dataset.uid}`)
             .then(res => res.json())
             .then(data => {
                 $('#idEdit').val(data.id)
@@ -96,7 +98,7 @@ usersTable.addEventListener('click', (e) => {
                 xhr2.send();
             });
     } else if (e.target.id === 'deleteButton') {
-        fetch(`http://localhost:8080/api/users/${e.target.dataset.uid}`)
+        fetch(`http://localhost:8080/api/admin/${e.target.dataset.uid}`)
             .then(res => res.json())
             .then(data => {
                 role = '';
@@ -134,8 +136,8 @@ editModalForm.addEventListener('submit', (e) => {
 
     const requestBody = {
         id: document.getElementById('idEdit').value,
-        firstname: firstnameById.value,
-        lastname: lastnameById.value,
+        firstName: firstnameById.value,
+        lastName: lastnameById.value,
         age: ageById.value,
         email: emailById.value,
         password: passwordById.value,
@@ -143,7 +145,7 @@ editModalForm.addEventListener('submit', (e) => {
     };
 
     const uid = document.getElementById('idEdit').value
-    fetch(`http://localhost:8080/api/users/` + uid, {
+    fetch(`http://localhost:8080/api/admin/` + uid, {
         method: 'PATCH',
         headers: {
             'Content-type': 'application/json'
@@ -165,7 +167,7 @@ const deleteModalForm = document.getElementById('deleteModalForm')
 deleteModalForm.addEventListener('submit', (e) => {
     e.preventDefault()
     const uid = document.getElementById('idDelete').value
-    fetch(`http://localhost:8080/api/users/` + uid, {
+    fetch(`http://localhost:8080/api/admin/` + uid, {
         method: 'DELETE'
     })
         .then(res => console.log(res))
@@ -224,14 +226,14 @@ createUserForm.addEventListener('submit', (e) => {
         }
     }
 
-    fetch(createUserUrl, {
+    fetch('http://localhost:8080/api/admin', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify({
-            firstname: firstnameById.value,
-            lastname: lastnameById.value,
+            firstName: firstnameById.value,
+            lastName: lastnameById.value,
             age: ageById.value,
             email: usernameById.value,
             password: passwordById.value,

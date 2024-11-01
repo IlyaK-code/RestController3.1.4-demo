@@ -27,14 +27,12 @@ public class MainRestController {
     private final UserService userService;
     private final RoleRepo roleRepo;
     private final ModelMapper modelMapper;
-    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public MainRestController(UserService service, ModelMapper modelMapper, RoleRepo roleRepo, UserServiceImpl userServiceImpl) {
+    public MainRestController(UserService service, ModelMapper modelMapper, RoleRepo roleRepo) {
         this.userService = service;
         this.modelMapper = modelMapper;
         this.roleRepo = roleRepo;
-        this.userServiceImpl = userServiceImpl;
     }
 
     private UserDTO convertToUserDTO(User user) {
@@ -76,8 +74,8 @@ public class MainRestController {
     }
 
     @PostMapping("/admin")
-    public ResponseEntity<HttpStatus> saveUser(@RequestBody UserDTO userDTO) {
-        userService.saveUser(null, convertToUser(userDTO));
+    public ResponseEntity<HttpStatus> saveUser(@RequestBody User userDTO) {
+        userService.saveUser(null, userDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

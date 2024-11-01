@@ -103,9 +103,9 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-//    public Set<Role> getRoles() {
-//        return roles;
-//    }
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
     @Override
     public String getPassword() {

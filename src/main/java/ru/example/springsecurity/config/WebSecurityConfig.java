@@ -42,7 +42,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
 //                .requestMatchers("/**").permitAll()
                 .requestMatchers("/", "/login", "/logout").permitAll()
-                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/user/**", "/api/user").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/api/**","/panel").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
